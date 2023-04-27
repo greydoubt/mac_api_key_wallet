@@ -1,0 +1,25 @@
+#mac intel
+
+CXX = g++
+CXXFLAGS = -std=c++17 -Wall -Wextra -pedantic
+LDFLAGS =
+
+OBJS = ApiKey.o ApiKeysList.o Main.o
+TARGET = api_key_app
+
+all: $(TARGET)
+
+$(TARGET): $(OBJS)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) $(OBJS) -o $(TARGET)
+
+ApiKey.o: ApiKey.cpp ApiKey.hpp
+	$(CXX) $(CXXFLAGS) -c ApiKey.cpp -o ApiKey.o
+
+ApiKeysList.o: ApiKeysList.cpp ApiKeysList.hpp ApiKey.hpp
+	$(CXX) $(CXXFLAGS) -c ApiKeysList.cpp -o ApiKeysList.o
+
+Main.o: Main.cpp ApiKeysList.hpp ApiKey.hpp
+	$(CXX) $(CXXFLAGS) -c Main.cpp -o Main.o
+
+clean:
+	rm -f $(OBJS) $(TARGET)
